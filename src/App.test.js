@@ -7,9 +7,11 @@ import App from './App'
 jest.mock('axios')
 
 test('loads and displays greeting', async () => {
+  // arrange
   const url = '/greeting'
   const { getByText, getByRole } = render(<App url={url} />)
 
+  // act
   axiosMock.get.mockResolvedValueOnce({
     data: { greeting: 'hello there' },
   })
@@ -18,6 +20,7 @@ test('loads and displays greeting', async () => {
 
   const greetingTextNode = await waitForElement(() => getByRole('heading'))
 
+  // assert
   expect(axiosMock.get).toHaveBeenCalledTimes(1)
   expect(axiosMock.get).toHaveBeenCalledWith(url)
   expect(getByRole('heading')).toHaveTextContent('hello there')
